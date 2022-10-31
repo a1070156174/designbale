@@ -15,7 +15,8 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "@designable/*": ["./packages/*/src"]
+      "@designable/*": ["./packages/*/src"],
+      "@formily/antd-mobile": ["./formily/component/ant-mobile/src"]
     }
   }
 }

@@ -29,6 +29,8 @@ import {
   ArrayTable,
   ArrayCards,
 } from '@formily/antd'
+import { MInput, MRadio, Mcascader } from '../../src/components/ant-mobile'
+import { FormItem as MFormItem } from '../../../ant-mobile/src'
 import { Card, Slider, Rate } from 'antd'
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
@@ -73,6 +75,10 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
+    MFormItem,
+    MInput,
+    MRadio,
+    Mcascader,
   },
 })
 

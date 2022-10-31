@@ -5,6 +5,7 @@ export type ComponentNameMatcher =
   | string[]
   | ((name: string, node: TreeNode, context?: any) => boolean)
 
+// 是否匹配组件
 export const matchComponent = (
   node: TreeNode,
   name: ComponentNameMatcher,
@@ -18,6 +19,7 @@ export const matchComponent = (
   return componentName === name
 }
 
+// 是否匹配子组件组件
 export const matchChildComponent = (
   node: TreeNode,
   name: ComponentNameMatcher,
@@ -32,6 +34,7 @@ export const matchChildComponent = (
   return componentName.indexOf(`${name}.`) > -1
 }
 
+// 是否包含组件
 export const includesComponent = (
   node: TreeNode,
   names: ComponentNameMatcher[],
@@ -40,6 +43,7 @@ export const includesComponent = (
   return names.some((name) => matchComponent(node, name, target))
 }
 
+// 通过路径查找节点
 export const queryNodesByComponentPath = (
   node: TreeNode,
   path: ComponentNameMatcher[]
@@ -57,6 +61,7 @@ export const queryNodesByComponentPath = (
     : []
 }
 
+// 通过路径查找第一个匹配的节点
 export const findNodeByComponentPath = (
   node: TreeNode,
   path: ComponentNameMatcher[]
@@ -77,6 +82,7 @@ export const findNodeByComponentPath = (
   }
 }
 
+// 通过路径查找是否有匹配的节点
 export const hasNodeByComponentPath = (
   node: TreeNode,
   path: ComponentNameMatcher[]
@@ -89,12 +95,14 @@ export const matchArrayItemsNode = (node: TreeNode) => {
   )
 }
 
+// 创建节点
 export const createNodeId = (designer: Engine, id: string) => {
   return {
     [designer.props.nodeIdAttrName]: id,
   }
 }
 
+// 通过类型创建节点
 export const createEnsureTypeItemsNode = (type: string) => (node: TreeNode) => {
   const objectNode = node.children.find((child) => child.props['type'] === type)
   if (objectNode) {

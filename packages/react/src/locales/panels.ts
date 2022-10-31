@@ -1,3 +1,4 @@
+import { PageSet } from './../icons/pageSet'
 export default {
   'zh-CN': {
     panels: {
@@ -5,6 +6,7 @@ export default {
       OutlinedTree: '大纲树',
       PropertySettings: '属性配置',
       History: '历史记录',
+      PageSettings: '页面设置',
     },
   },
   'en-US': {
@@ -13,6 +15,7 @@ export default {
       OutlinedTree: 'Outlined Tree',
       PropertySettings: 'Property Settings',
       History: 'History',
+      PageSettings: 'Page Settings',
     },
   },
   'ko-KR': {
@@ -21,6 +24,7 @@ export default {
       OutlinedTree: '트리 노드',
       PropertySettings: '속성 설정',
       History: '기록',
+      PageSettings: '페이지 설정',
     },
   },
 }

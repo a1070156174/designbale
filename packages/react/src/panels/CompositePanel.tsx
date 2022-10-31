@@ -62,6 +62,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
   const [pinning, setPinning] = useState(props.defaultPinning ?? false)
   const [visible, setVisible] = useState(props.defaultOpen ?? true)
   const items = parseItems(props.children)
+
   const currentItem = findItem(items, activeKey)
   const content = currentItem?.children
 
@@ -122,7 +123,6 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
       </div>
     )
   }
-
   return (
     <div
       className={cls(prefix, {
@@ -150,6 +150,7 @@ export const CompositePanel: React.FC<ICompositePanelProps> & {
               />
             )
           }
+
           const shape = item.shape ?? 'tab'
           const Comp = shape === 'link' ? 'a' : 'div'
           return (

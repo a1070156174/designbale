@@ -18,12 +18,17 @@ export const useFreeSelectionEffect = (engine: Engine) => {
         event.data.topClientX,
         event.data.topClientY
       )
-      const dragStartOffsetPoint = viewport.getOffsetPoint(
-        new Point(
-          engine.cursor.dragStartPosition.topClientX,
-          engine.cursor.dragStartPosition.topClientY
+      try {
+        const dragStartOffsetPoint = viewport.getOffsetPoint(
+          new Point(
+            engine.cursor.dragStartPosition.topClientX,
+            engine.cursor.dragStartPosition.topClientY
+          )
         )
-      )
+      } catch (error) {
+        const dragStartOffsetPoint = viewport.getOffsetPoint(new Point(0, 0))
+      }
+
       const dragEndOffsetPoint = viewport.getOffsetPoint(
         new Point(
           engine.cursor.position.topClientX,

@@ -4,6 +4,7 @@ import { GlobSync } from 'glob'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import autoprefixer from 'autoprefixer'
 //import { getThemeVariables } from 'antd/dist/theme'
+//import Dotenv from 'dotenv-webpack'
 
 const getWorkspaceAlias = () => {
   const basePath = path.resolve(__dirname, '../../../')
@@ -25,7 +26,7 @@ const getWorkspaceAlias = () => {
 }
 
 export default {
-  mode: 'development',
+  // mode: 'development',
   devtool: 'inline-source-map', // 嵌入到源文件中
   stats: {
     entrypoints: false,

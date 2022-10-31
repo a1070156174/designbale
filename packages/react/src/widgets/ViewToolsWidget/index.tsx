@@ -1,10 +1,11 @@
 import React from 'react'
-import { Button } from 'antd'
+import { Button, Popconfirm } from 'antd'
 import { observer } from '@formily/reactive-react'
-import { WorkbenchTypes } from '@designable/core'
+import { WorkbenchTypes, GlobalRegistry } from '@designable/core'
 import { IconWidget } from '../IconWidget'
-import { usePrefix, useWorkbench } from '../../hooks'
+import { usePrefix, useWorkbench, useTree } from '../../hooks'
 import cls from 'classnames'
+import { TextWidget } from '../TextWidget'
 
 export interface IViewToolsWidget {
   use?: WorkbenchTypes[]
@@ -12,10 +13,26 @@ export interface IViewToolsWidget {
   className?: string
 }
 
+const clearTreeText = () => {
+  return <TextWidget>{'cls'}</TextWidget>
+}
+
 export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
   ({ use, style, className }) => {
     const workbench = useWorkbench()
     const prefix = usePrefix('view-tools')
+    const tree = useTree()
+    GlobalRegistry.registerDesignerLocales({
+      'zh-CN': {
+        cls: '是否清空屏幕?',
+      },
+      'en-US': {
+        cls: 'Clear the screen?',
+      },
+      'ja-JP': {
+        cls: '画面をクリアする',
+      },
+    })
     return (
       <Button.Group style={style} className={cls(prefix, className)}>
         {use.includes('DESIGNABLE') && (
@@ -61,6 +78,21 @@ export const ViewToolsWidget: React.FC<IViewToolsWidget> = observer(
           >
             <IconWidget infer="Play" />
           </Button>
+        )}
+        {tree.children && tree.children.length > 0 && (
+          <Popconfirm
+            placement="bottomRight"
+            title={clearTreeText}
+            onConfirm={() => {
+              tree.setChildren()
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button size="small">
+              <IconWidget infer="Remove" />
+            </Button>
+          </Popconfirm>
         )}
       </Button.Group>
     )

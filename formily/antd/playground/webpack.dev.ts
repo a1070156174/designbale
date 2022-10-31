@@ -5,8 +5,9 @@ import MonacoPlugin from 'monaco-editor-webpack-plugin'
 //import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import webpack from 'webpack'
 import path from 'path'
+//import Dotenv from 'dotenv-webpack'
 
-const PORT = 3000
+const PORT = 3999
 
 const createPages = (pages) => {
   return pages.map(({ filename, template, chunk }) => {
@@ -27,7 +28,15 @@ for (const key in baseConfig.entry) {
     )
   }
 }
-
+const envForEach = (env) => {
+  const envs = {}
+  try {
+    for (const key in env) {
+      envs[key] = JSON.stringify(env[key])
+    }
+  } catch (error) {}
+  return envs
+}
 export default {
   ...baseConfig,
   plugins: [
@@ -46,11 +55,18 @@ export default {
     new MonacoPlugin({
       languages: ['json'],
     }),
+    // new Dotenv(),
+    new webpack.DefinePlugin({
+      'process.env': envForEach(process.env),
+    }),
     // new BundleAnalyzerPlugin()
   ],
   devServer: {
-    host: '127.0.0.1',
+    host: '192.168.3.36',
     open: true,
     port: PORT,
+    proxy: {
+      '/api': 'http://192.168.3.123:8081',
+    },
   },
 }

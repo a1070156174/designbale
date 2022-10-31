@@ -1,46 +1,81 @@
 import React, { useEffect } from 'react'
-import { Space, Button, Radio } from 'antd'
-import { GithubOutlined } from '@ant-design/icons'
+import { Space, Button, Radio, Select } from 'antd'
+// import { GithubOutlined } from '@ant-design/icons'
 import { useDesigner, TextWidget } from '@designable/react'
 import { GlobalRegistry } from '@designable/core'
 import { observer } from '@formily/react'
-import { loadInitialSchema, saveSchema } from '../service'
+import { loadInitialSchema, saveSchema, pushSchema } from '../service'
+interface ActionsWidget {
+  theme: string
+  setTheme: (props: string) => void
+  pageDataId: string | number
+}
 
-export const ActionsWidget = observer(() => {
+export const ActionsWidget: React.FC<ActionsWidget> = observer((props) => {
   const designer = useDesigner()
+  const { Option } = Select
+  const { theme, setTheme, pageDataId } = props
   useEffect(() => {
-    loadInitialSchema(designer)
-  }, [])
+    console.log('props-----------------------------------', props)
+    if (pageDataId) {
+      loadInitialSchema(designer, pageDataId)
+    }
+  }, [pageDataId, props])
   const supportLocales = ['zh-cn', 'en-us', 'ko-kr']
   useEffect(() => {
     if (!supportLocales.includes(GlobalRegistry.getDesignerLanguage())) {
       GlobalRegistry.setDesignerLanguage('zh-cn')
     }
   }, [])
+
+  const changeLanguage = (val) => {
+    // eslint-disable-next-line no-console
+    console.log(val)
+  }
   return (
     <Space style={{ marginRight: 10 }}>
-      <Button href="https://designable-fusion.formilyjs.org">
-        Alibaba Fusion
-      </Button>
+      <Select
+        defaultValue="zh-cn"
+        style={{ width: 120 }}
+        onChange={changeLanguage}
+      >
+        <Option value="zh-cn">中文页面</Option>
+        <Option value="zh-hk">繁体页面</Option>
+        <Option value="en">英文页面</Option>
+      </Select>
+      {theme && theme === 'light' ? (
+        <Button
+          onClick={() => {
+            setTheme('dark')
+          }}
+        >
+          暗夜
+        </Button>
+      ) : (
+        <Button
+          onClick={() => {
+            setTheme('light')
+          }}
+        >
+          极光
+        </Button>
+      )}
       <Radio.Group
         value={GlobalRegistry.getDesignerLanguage()}
         optionType="button"
         options={[
           { label: 'English', value: 'en-us' },
           { label: '简体中文', value: 'zh-cn' },
-          { label: '한국어', value: 'ko-kr' },
+          { label: '繁体', value: 'ko-kr' },
         ]}
         onChange={(e) => {
           GlobalRegistry.setDesignerLanguage(e.target.value)
         }}
       />
-      <Button href="https://github.com/alibaba/designable" target="_blank">
-        <GithubOutlined />
-        Github
-      </Button>
       <Button
+        className={`+++++${pageDataId}`}
         onClick={() => {
-          saveSchema(designer)
+          saveSchema(designer, pageDataId)
         }}
       >
         <TextWidget>Save</TextWidget>
@@ -48,7 +83,7 @@ export const ActionsWidget = observer(() => {
       <Button
         type="primary"
         onClick={() => {
-          saveSchema(designer)
+          pushSchema(designer, pageDataId)
         }}
       >
         <TextWidget>Publish</TextWidget>
@@ -56,3 +91,8 @@ export const ActionsWidget = observer(() => {
     </Space>
   )
 })
+ActionsWidget.defaultProps = {
+  theme: 'light',
+  setTheme: () => {},
+  pageDataId: '',
+}
